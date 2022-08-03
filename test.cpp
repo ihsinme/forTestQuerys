@@ -117,15 +117,15 @@ void goodTest7(int len)
 }
 void goodTest8(char * str)
 {
-  char *ptr = NULL;
-  int len;
+	char *ptr = NULL;
+	int len;
   
-  if ((len = getSize2()) <= 1) len = 0;
-  else {
-      ptr = (char *)malloc(len);
-      strcpy(ptr, str); 
-      free(ptr);
-  }
+	if ((len = getSize2()) <= 1) len = 0;
+  	else {
+      	ptr = (char *)malloc(len);
+      	strcpy(ptr, str); 
+      	free(ptr);
+  	}
 }
 
 void badTest1(int len)
