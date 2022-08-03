@@ -4,6 +4,7 @@ typedef struct {} FILE;
 FILE *ef;
 void *malloc(size_t size);
 size_t strlen(const char *str);
+char * strcpy( char * destptr, const char * srcptr );
 void free(void *ptr);
 unsigned long copy_from_user (void * to, void * from, unsigned long n);
 int fread(char *buf, int size, int count, FILE *fp);
@@ -114,6 +115,23 @@ void goodTest7(int len)
 	 ptr[len-1] = 0;
 	 free(ptr);
 }
+void goodTest8(char * str)
+{
+  char *ptr = NULL;
+  int len;
+  
+  if (len < 1 || !(ptr = (char *)malloc(len))) // GOOD
+    return;
+	 ptr[len-1] = 0;
+	 free(ptr);
+    if ((len = getSize2()) <= 1) len = 0;
+    else {
+        ptr = (char *)malloc(len);
+        strcpy(ptr, str); 
+    }
+
+}
+
 void badTest1(int len)
 {
   char *ptr;
