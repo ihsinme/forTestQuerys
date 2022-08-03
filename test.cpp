@@ -226,6 +226,116 @@ void badTest7(char buf[],FILE *f1)
   }
 }
 
+
+int memcmp(const void *buf1, const void *buf2, size_t count);
+int strncmp( const void * string1, const void * string2, size_t num );
+size_t strlen( unsigned char * string );
+
+int mymemcmp(const void *buf1, const void *buf2, size_t count)
+{
+    return memcmp(buf1, buf2, count);
+}
+int mystrncmp( const void * string1, const void * string2, size_t num )
+{
+    return strncmp(string1, string2, num);
+}
+int mymemcmp1(const void *buf1, size_t count,const void *buf2)
+{
+    return memcmp(buf1, buf2, count);
+}
+int mystrncmp1(size_t num, const void * string1, const void * string2 )
+{
+    return strncmp(string1, string2, num);
+}
+
+
+int nbadTest1(unsigned char *pass,unsigned char*sec,int met){
+  int ret=0;
+  int len;
+  len = strlen(sec);
+  switch(met){
+    case 1:
+      ret = memcmp(pass, pass, len); // BAD
+      break;
+    case 2:
+      ret = strncmp(pass, pass, len); // BAD
+      break;
+    default:
+      ret = 1;
+  }
+    return ret;
+}
+
+int nbadTest1o(unsigned char *pass,unsigned char*sec,int met){
+  int ret=0;
+  int len;
+  len = strlen(sec);
+  switch(met){
+    case 1:
+      ret = mymemcmp(pass, pass, len); // BAD
+      break;
+    case 2:
+      ret = mystrncmp(pass, pass, len); // BAD
+      break;
+    default:
+      ret = 1;
+  }
+    return ret;
+}
+int nbadTest1o1(unsigned char *pass,unsigned char*sec,int met){
+  int ret=0;
+  int len;
+  len = strlen(sec);
+  switch(met){
+    case 1:
+      ret = mymemcmp1(pass, len, pass); // BAD
+      break;
+    case 2:
+      ret = mystrncmp1(len, pass, pass); // BAD
+      break;
+    default:
+      ret = 1;
+  }
+    return ret;
+}
+int ngoodTest1(unsigned char *pass,unsigned char*sec,int met){
+  int ret=0;
+  int len;
+  len = strlen(sec);
+  switch(met){
+    case 1:
+      ret = memcmp(sec, pass, len); // GOOD
+      break;
+    case 2:
+      ret = strncmp(sec, pass, len); // GOOD
+      break;
+    default:
+      ret = 1;
+  }
+    return ret;
+}
+void abort(void);
+void exit (int state);
+namespace std
+{
+	int exit(int state);
+}
+[[noreturn]] void nbadTest2(int i) { // BAD
+  if (i > 0)
+    throw "Received positive input";
+  else if(i<0) exit(0);
+}
+[[noreturn]] void ngoodTest2(int i) { // GOOD
+  if (i > 0)
+    throw "Received positive input";
+  else exit(0);
+}
+[[noreturn]] void ngoodTest2a(int i) { // GOOD
+  if (i > 0)
+    throw "Received positive input";
+  else std::exit(0);
+}
+
 int main(void)
 {
 /* */
