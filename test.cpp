@@ -33,7 +33,7 @@ int getLen4() {
 }
 int getLen2()
 {
-  char str[4] = {0xff, 0xff, 0xff, 0xff};
+  char str[4] = {(char)0xff, (char)0xff, (char)0xff, (char)0xff};
   ef = getFile();
   fread(str, 1, 4, ef);
   return getLen3(str);
