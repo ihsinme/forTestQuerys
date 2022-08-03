@@ -322,17 +322,17 @@ namespace std
 }
 [[noreturn]] void nbadTest2(int i) { // BAD
   if (i > 0)
-    throw "Received positive input";
+    throw "error";
   else if(i<0) exit(0);
 }
 [[noreturn]] void ngoodTest2(int i) { // GOOD
   if (i > 0)
-    throw "Received positive input";
+    throw "error";
   else exit(0);
 }
 [[noreturn]] void ngoodTest2a(int i) { // GOOD
   if (i > 0)
-    throw "Received positive input";
+    throw "error";
   else std::exit(0);
 }
 
