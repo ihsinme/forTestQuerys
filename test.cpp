@@ -122,7 +122,19 @@ void goodTest8(char * str)
   
 	if ((len = getSize2()) <= 1) len = 0;
   	else {
-      	ptr = (char *)malloc(len);
+      	ptr = (char *)malloc(len); // GOOD
+      	strcpy(ptr, str); 
+      	free(ptr);
+  	}
+}
+void goodTest9(char * str)
+{
+	char *ptr = NULL;
+	int len;
+    len = getSize2();
+	if (len) len = 0;
+  	else {
+      	ptr = (char *)malloc(len); // GOOD
       	strcpy(ptr, str); 
       	free(ptr);
   	}
@@ -320,24 +332,29 @@ namespace std
 {
 	int exit(int state);
 }
-[[noreturn]] void nbadTest2(int i) { // BAD
+[[noreturn]] void nbadTest2(int i) {
   if (i > 0)
-    throw "error";
+    throw "Received positive input";
   else if(i<0) exit(0);
 }
-[[noreturn]] void ngoodTest2(int i) { // GOOD
+[[noreturn]] void ngoodTest2(int i) {
   if (i > 0)
-    throw "error";
+    throw "Received positive input";
   else exit(0);
 }
-[[noreturn]] void ngoodTest2a(int i) { // GOOD
+[[noreturn]] void ngoodTest2a(int i) {
   if (i > 0)
-    throw "error";
+    throw "Received positive input";
   else std::exit(0);
+}
+void nbadTest2a(int i){
+    nbadTest2(i); // BAD
+    ngoodTest2(i); // GOOD
+    ngoodTest2a(i); // GOOD
 }
 
 int main(void)
 {
-/*  */
+/* */
 return 0;
 }
