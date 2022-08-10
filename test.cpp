@@ -427,6 +427,6 @@ void nbadTest2a(int i){
 
 int main(void)
 {
-/*  */
+/*   */
 return 0;
 }
