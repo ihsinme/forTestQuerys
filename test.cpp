@@ -326,6 +326,78 @@ int ngoodTest1(unsigned char *pass,unsigned char*sec,int met){
   }
     return ret;
 }
+int mystrncmp2(size_t num, const void * string1, const void * string2 )
+{
+    if(string1!=string2)
+        return strncmp(string1, string2, num);
+    return 0;
+}
+int ngoodTest2(unsigned char *pass,unsigned char*sec,int met){
+  int ret=0;
+  int len;
+  len = strlen(sec);
+  ret = mystrncmp2(len, pass, pass); // GOOD
+  return ret;
+}
+void* memcpy( void *dest, const void *src, size_t count );
+void* memmove( void* dest, const void* src, size_t count );
+#define my_copy(a, b)      (void)(((a) != (b)) && memcpy((b), (a), sizeof(a)))
+void ngoodTest3(unsigned char *pass,unsigned char*sec){
+  my_copy(pass,sec); // GOOD
+}
+void ngoodTest3o(unsigned char *pass,unsigned char*sec){
+    ngoodTest3(pass,pass); // GOOD
+}
+
+
+int ngoodTest4(unsigned char *pass,unsigned char*sec,int met){
+    int ret=0;
+    int len;
+    len = strlen(sec);
+    char* buf1=NULL;
+    char* buf2=NULL;
+    if(buf1&&buf2)
+        mymemcmp1(buf1,len,buf2); // GOOD
+    return ret;
+}
+int mystrncmp3(size_t num, const void * string1, const void * string2 )
+{
+    if(string1)
+        return strncmp(string1, string2, num);
+    return 0;
+}
+int ngoodTest5(unsigned char *pass,unsigned char*sec,int met){
+  int ret=0;
+  int len;
+  len = strlen(sec);
+  ret = mystrncmp3(len, NULL, NULL); // GOOD
+  return ret;
+}
+void mymemcpy(size_t num, void * string1, const void * string2 )
+{
+    char *tmp;
+    tmp = (char *)string2+2;
+    string2 = tmp;
+    memcpy(string1, string2, num);
+}
+void nbadTest2(unsigned char *pass,unsigned char*sec,int met){
+  int len;
+  len = strlen(sec);
+  mymemcpy(len, pass, pass); // BAD
+}
+void mymemmove(size_t num, void * string1, const void * string2 )
+{
+    char *tmp;
+    tmp = (char *)string2+2;
+    string2 = tmp;
+    memmove(string1, string2, num);
+}
+void ngoodTest6(unsigned char *pass,unsigned char*sec,int met){
+  int len;
+  len = strlen(sec);
+  mymemmove(len, pass, pass); // GOOD
+}
+
 void abort(void);
 void exit (int state);
 namespace std
